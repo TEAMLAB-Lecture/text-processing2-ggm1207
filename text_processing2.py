@@ -1,6 +1,7 @@
 #######################
 # Test Processing II  #
 #######################
+import re
 
 
 def digits_to_words(input_string):
@@ -28,7 +29,22 @@ def digits_to_words(input_string):
             >>> tp2.digits_to_words(digits_str2)
             'three one four one five'
     """
-    digit_string = None
+    num2eng = [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+        "ten",
+    ]
+    nums = re.findall("[\d]", input_string)
+    nums = map(lambda x: num2eng[int(x)], nums)
+    digit_string = " ".join(nums)
     return digit_string
 
 
@@ -64,5 +80,13 @@ def to_camel_case(underscore_str):
             >>> tp2.to_camel_case(underscore_str3)
             "alreadyCamel"
     """
-    camelcase_str = None
+    string = underscore_str.split("_")
+    if len(string) == 1:  # underscore가 없는 경우
+        return string[0]
+
+    string = list(filter(lambda x: x != "", string))
+    if len(string) == 0:  # 전체가 undesrscore인 경우
+        return ""
+
+    camelcase_str = string[0].lower() + "".join(map(lambda x: x.title(), string[1:]))
     return camelcase_str
